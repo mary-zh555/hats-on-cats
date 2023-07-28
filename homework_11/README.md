@@ -4,3 +4,6 @@
 
 2. Optional: Add the Telegram bot to the previous exercise. Ask the user to enter a search word in the Telegram interface and get a gif image as a result.
 Homework should be submitted via GitHub
+
+# Giphy API key. 
+Get your own key here: https://developers.giphy.com/explorer/
