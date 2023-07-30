@@ -1,14 +1,29 @@
-import requests
-from urllib import parse
 import questionary
-import credentials
+from send_request import send_request
+from send_request import return_urls
+import sys
 
 
-def _encode(ukr_text: str) -> str:
-    return parse.quote(ukr_text)
+min_num, max_num = 1, 50
+
+ENG_TEXT: dict = {
+    "question": "What gif you want to find?",
+    "limit": "How many do you want to see?",
+    "instructions": f"Input a number in range {min_num}-{max_num}.",
+    "query_error": "Input is empty! Please try again!",
+    "num_error": "WRONG number. Please try again!",
+}
+
+UKR_TEXT: dict = {
+    "question": "Яку гіфку ти шукаєш?",
+    "limit": "Скільки ти хочеш побачити?",
+    "instructions": f"Введіть число в діапазоні {min_num}-{max_num}.",
+    "query_error": "Ви нічого не ввели! Спробуйте ще раз!",
+    "num_error": "НЕПРАВИЛЬНИЙ номер. Спробуйте ще раз!",
+}
 
 
-def choose_lang():
+def choose_lang() -> str:
     languages = {
         "English": "eng",
         "Українська": "uk",
@@ -21,26 +36,11 @@ def choose_lang():
     return languages[lang]
 
 
-def get_user_input():
+def get_user_input() -> tuple[str, str, str]:
     lang: str = choose_lang()
     query: str = ""
     number: str = ""
     choice: dict = dict()
-    min_num, max_num = 1, 50
-
-    ENG_TEXT: dict = {
-        "question": "What gif you want to find?",
-        "limit": "How many do you want to see?",
-        "instructions": f"Input a number in range {min_num}-{max_num}.",
-        "num_error": "WRONG number. Please try again!",
-    }
-
-    UKR_TEXT: dict = {
-        "question": "Яку гіфку ти шукаєш?",
-        "limit": "Скільки ти хочеш побачити?",
-        "instructions": f"Введіть число в діапазоні {min_num}-{max_num}.",
-        "num_error": "НЕПРАВИЛЬНИЙ номер. Спробуйте ще раз!",
-    }
 
     if lang == "eng":
         choice = ENG_TEXT
@@ -48,48 +48,22 @@ def get_user_input():
         choice = UKR_TEXT
 
     query = questionary.text(choice["question"]).ask()
+
     number = questionary.text(choice["limit"], instruction=choice["instructions"]).ask()
 
-    if int(number) not in range(min_num, max_num):
+    if query.strip() == "":
+        questionary.print(choice["query_error"], style="bold italic fg:darkred")
+
+    if not number.isdigit() or int(number) not in range(min_num, max_num):
         questionary.print(choice["num_error"], style="bold italic fg:darkred")
 
-    print(query, lang, number)
     return (lang, query, number)
 
 
-def send_request(lang: str, query: str, num: str):
-    url = "http://api.giphy.com/v1/gifs/search"
-    API_KEY = credentials.API_KEY
-    params = parse.urlencode(
-        {
-            "q": query,
-            "api_key": API_KEY,
-            "limit": num,
-            "lang": lang,
-            "offset": 0,
-            "bundle": "messaging_non_clips",
-        }
-    )
-
-    req = requests.get(url, params=params)
-    # print(req.url)
-    return req.json()
-
-
-def return_urls(resp):
-    original_url = title = ""
-    my_list = list()
-    for obj in resp["data"]:
-        original_url = obj["images"]["original"]["url"]
-        title = obj["title"] if obj["title"] else "GIF"
-        my_list.append([original_url, title])
-    return my_list
-
-
-def print_search_results(data_list: list):
-    for img in data_list:
+def print_search_results(data_list: list) -> None:
+    for i, img in enumerate(data_list, start=1):
         url, title = img
-        questionary.print(f"{title}:", style="bold fg:orange")
+        questionary.print(f"{i}: {title}:", style="bold fg:orange")
         questionary.print(f"    {url}\n", style="italic fg:#3366CC")
 
 
