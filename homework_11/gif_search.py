@@ -4,12 +4,12 @@ from send_request import return_urls
 import sys
 
 
-min_num, max_num = 1, 50
+MIN_NUM, MAX_NUM = 1, 50
 
 ENG_TEXT: dict = {
     "question": "What gif you want to find?",
     "limit": "How many do you want to see?",
-    "instructions": f"Input a number in range {min_num}-{max_num}.",
+    "instructions": f"Input a number in range {MIN_NUM}-{MAX_NUM}.",
     "query_error": "Input is empty! Please try again!",
     "num_error": "WRONG number. Please try again!",
 }
@@ -17,7 +17,7 @@ ENG_TEXT: dict = {
 UKR_TEXT: dict = {
     "question": "Яку гіфку ти шукаєш?",
     "limit": "Скільки ти хочеш побачити?",
-    "instructions": f"Введіть число в діапазоні {min_num}-{max_num}.",
+    "instructions": f"Введіть число в діапазоні {MIN_NUM}-{MAX_NUM}.",
     "query_error": "Ви нічого не ввели! Спробуйте ще раз!",
     "num_error": "НЕПРАВИЛЬНИЙ номер. Спробуйте ще раз!",
 }
@@ -40,22 +40,34 @@ def get_user_input() -> tuple[str, str, str]:
     lang: str = choose_lang()
     query: str = ""
     number: str = ""
-    choice: dict = dict()
+    choice: dict = {}
 
     if lang == "eng":
         choice = ENG_TEXT
     if lang == "uk":
         choice = UKR_TEXT
 
-    query = questionary.text(choice["question"]).ask()
+    while True:
+        try:
+            query = questionary.text(choice["question"]).ask()
+            if query.strip() == "":
+                raise Exception()
+        except Exception:
+            questionary.print(choice["query_error"], style="bold italic fg:darkred")
+            continue
+        break
 
-    number = questionary.text(choice["limit"], instruction=choice["instructions"]).ask()
-
-    if query.strip() == "":
-        questionary.print(choice["query_error"], style="bold italic fg:darkred")
-
-    if not number.isdigit() or int(number) not in range(min_num, max_num):
-        questionary.print(choice["num_error"], style="bold italic fg:darkred")
+    while True:
+        try:
+            number = questionary.text(
+                choice["limit"], instruction=choice["instructions"]
+            ).ask()
+            if not number.isdigit() or int(number) not in range(MIN_NUM, MAX_NUM):
+                raise Exception()
+        except Exception:
+            questionary.print(choice["num_error"], style="bold italic fg:darkred")
+            continue
+        break
 
     return (lang, query, number)
 
