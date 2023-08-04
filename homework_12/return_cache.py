@@ -53,6 +53,7 @@ def fib_2(n):
         return result
 
 
-print(fib_1(7))
+if __name__ == "__main__":
+    print(fib_1(7))
 
-print(fib_2(7))
+    print(fib_2(7))

@@ -37,8 +37,9 @@ def add(a: int, b: int) -> int:
     return a + b
 
 
-add(1, 2)
-# > 3
+if __name__ == "__main__":
+    add(1, 2)
+    # > 3
 
-add("1", "2")
-# > TypeError: Argument a must be int, not str
+    add("1", "2")
+    # > TypeError: Argument a must be int, not str
