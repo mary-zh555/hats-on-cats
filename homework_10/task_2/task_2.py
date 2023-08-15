@@ -5,6 +5,7 @@ if __name__ == "__main__":
     with open(f"{path}/file_1.txt", "w") as file_1:
         file_1.write(text)
 
-    with open(f"{path}/file_2.txt", "w") as file_2:
-        with open(f"{path}/file_1.txt", "r") as file_1:
-            file_2.write(f"{file_1.readline().upper()}")
+    with open(f"{path}/file_2.txt", "w") as file_2, open(
+        f"{path}/file_1.txt", "r"
+    ) as file_1:
+        file_2.write(f"{file_1.readline().upper()}")
