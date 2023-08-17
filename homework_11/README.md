@@ -10,4 +10,3 @@ Get your own key here: https://developers.giphy.com/explorer/
 Get you own Telegram token here: https://helpdesk.bitrix24.com/open/17622486/
 
 Paste your keys in the .env.example file 
-Change file paths on lines: `dotenv_path = join(dirname(__file__), ".env")` from .env -> .env.example
