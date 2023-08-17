@@ -1,35 +1,30 @@
-CREATE TABLE `Users` (
-  `id` uuid PRIMARY KEY,
-  `type` char,
-  `created_at` timestamp
+CREATE TABLE Users (
+  id serial PRIMARY KEY,
+  user_type CHAR,
+  created_at timestamp
 );
 
-CREATE TABLE `Hosts` (
-  `host_id` uuid PRIMARY KEY,
-  `created_at` timestamp
+CREATE TABLE Hosts (
+  id serial,
+  FOREIGN KEY (id) REFERENCES Users (id),
+  created_at timestamp
 );
 
-CREATE TABLE `Guests` (
-  `guest_id` uuid PRIMARY KEY,
-  `room_id` uuid,
-  `created_at` timestamp
+CREATE TABLE Guests (
+  id serial,
+  room_id serial,
+  FOREIGN KEY (id) REFERENCES Users (id), (room_id) REFERENCES Rooms (id),
+  created_at timestamp
 );
 
-CREATE TABLE `Rooms` (
-  `id` uuid PRIMARY KEY,
-  `host_id` uuid,
-  `available` Boolean,
-  `amount_residents` integer,
-  `price` float,
-  `AC` Boolean,
-  `Refrigirator` Boolean,
-  `created_at` timestamp
+CREATE TABLE Rooms (
+  id serial PRIMARY KEY,
+  host_id serial,
+  FOREIGN KEY (host_id) REFERENCES Hosts (id),
+  available Boolean,
+  amount_residents integer,
+  price float,
+  AC Boolean,
+  Refrigerator Boolean,
+  created_at timestamp
 );
-
-ALTER TABLE `Hosts` ADD FOREIGN KEY (`host_id`) REFERENCES `Rooms` (`host_id`);
-
-ALTER TABLE `Hosts` ADD FOREIGN KEY (`host_id`) REFERENCES `Users` (`id`);
-
-ALTER TABLE `Guests` ADD FOREIGN KEY (`guest_id`) REFERENCES `Users` (`id`);
-
-ALTER TABLE `Rooms` ADD FOREIGN KEY (`id`) REFERENCES `Guests` (`room_id`);

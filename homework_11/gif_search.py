@@ -1,8 +1,6 @@
 import questionary
 from send_request import send_request
 from send_request import return_urls
-import sys
-
 
 MIN_NUM, MAX_NUM = 1, 50
 
@@ -12,6 +10,7 @@ ENG_TEXT: dict = {
     "instructions": f"Input a number in range {MIN_NUM}-{MAX_NUM}.",
     "query_error": "Input is empty! Please try again!",
     "num_error": "WRONG number. Please try again!",
+    "query": "eng",
 }
 
 UKR_TEXT: dict = {
@@ -20,13 +19,14 @@ UKR_TEXT: dict = {
     "instructions": f"Введіть число в діапазоні {MIN_NUM}-{MAX_NUM}.",
     "query_error": "Ви нічого не ввели! Спробуйте ще раз!",
     "num_error": "НЕПРАВИЛЬНИЙ номер. Спробуйте ще раз!",
+    "query": "uk",
 }
 
 
-def choose_lang() -> str:
+def choose_lang() -> dict:
     languages = {
-        "English": "eng",
-        "Українська": "uk",
+        "English": ENG_TEXT,
+        "Українська": UKR_TEXT,
     }
 
     lang = questionary.select(
@@ -37,15 +37,10 @@ def choose_lang() -> str:
 
 
 def get_user_input() -> tuple[str, str, str]:
-    lang: str = choose_lang()
     query: str = ""
     number: str = ""
-    choice: dict = {}
-
-    if lang == "eng":
-        choice = ENG_TEXT
-    if lang == "uk":
-        choice = UKR_TEXT
+    choice: dict = choose_lang()
+    lang: str = choice["query"]
 
     while True:
         try:
@@ -62,7 +57,12 @@ def get_user_input() -> tuple[str, str, str]:
             number = questionary.text(
                 choice["limit"], instruction=choice["instructions"]
             ).ask()
-            if not number.isdigit() or int(number) not in range(MIN_NUM, MAX_NUM):
+
+            if (
+                not number.isdigit()
+                or (int(number) < MIN_NUM)
+                or (int(number) > MAX_NUM)
+            ):
                 raise Exception()
         except Exception:
             questionary.print(choice["num_error"], style="bold italic fg:darkred")

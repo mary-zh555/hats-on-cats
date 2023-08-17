@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from os.path import join, dirname
 
 
-dotenv_path = join(dirname(__file__), ".env")
+dotenv_path = join(dirname(__file__), ".env.example")
 load_dotenv(dotenv_path)
 
 api_key = os.getenv("api_key", " ")
@@ -35,6 +35,6 @@ def return_urls(resp) -> list:
     my_list = list()
     for obj in resp["data"]:
         original_url = obj["images"]["original"]["url"]
-        title = obj["title"] if obj["title"] else "GIF"
+        title = obj["title"] or "GIF"
         my_list.append([original_url, title])
     return my_list
