@@ -1,4 +1,7 @@
 .venv
 homework_8/comments.txt
-homework_8/other.ipynb
 homework_9/__pycache__
+homework_11/credentials.py
+
+.env
+**/__pycache__/
