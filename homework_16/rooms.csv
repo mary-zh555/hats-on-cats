@@ -1,0 +1,6 @@
+"id","host_id","available","cost_per_night","amount_residents","ac","refrigerator","created_at"
+"3082bb0b-978f-4363-86ca-6de7d3b5334a","0857ee00-2040-4bb0-940d-b6ec4d5143bd",True,"120.5",2,True,True,"2023-08-21 11:29:16.755578"
+"aa632b74-f701-4976-b866-bd13773165f5","caff3719-ed5f-414c-bc62-bca6cfb04539",False,"85",1,False,True,"2023-08-21 11:29:16.755578"
+"334d17d1-b2cd-435e-a8b4-5c683b53d6bf","fb32c0ac-3844-4e89-9bcb-fc10754a1a33",True,"150.75",3,True,False,"2023-08-21 11:29:16.755578"
+"8c6ba723-5600-43ff-9f12-75e34be6fde0","0857ee00-2040-4bb0-940d-b6ec4d5143bd",False,"50",2,False,False,"2023-08-21 11:33:36.539465"
+"d530d072-c500-43e7-9526-88e5f9ce3dd7","0857ee00-2040-4bb0-940d-b6ec4d5143bd",True,"200",5,True,True,"2023-08-21 11:33:36.539465"

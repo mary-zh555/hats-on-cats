@@ -1,0 +1,4 @@
+"id","first_name","last_name","room_id","num_of_night","total_fee","num_of_reservations","created_at"
+"8a14f57e-01ab-4fca-b6f7-17cbb9dd803e","John                                              ","Doe                                               ","3082bb0b-978f-4363-86ca-6de7d3b5334a",5,"602.5",2,"2023-08-21 11:43:27.52813"
+"e4f99a57-281e-43a4-bf6d-03e53d368cd5","Jane                                              ","Smith                                             ","aa632b74-f701-4976-b866-bd13773165f5",3,"255",1,"2023-08-21 11:43:27.52813"
+"17a70d8a-48ff-4e1d-9b6a-3d66b8b2ceb3","Michael                                           ","Johnson                                           ","334d17d1-b2cd-435e-a8b4-5c683b53d6bf",7,"1055.25",3,"2023-08-21 11:43:27.52813"
