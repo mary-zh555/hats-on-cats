@@ -5,3 +5,4 @@ homework_11/credentials.py
 
 .env
 **/__pycache__/
+**/feedback.md
