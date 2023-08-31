@@ -13,16 +13,15 @@ class FastFood(Restaurant):
         self.drive_thru = drive_thru
 
     def order(self, dish_name, quantity):
-        if dish_name in self.menu:
-            price: int = self.menu.get(dish_name, {}).get("price", 0)
-            available_qty: int = self.menu.get(dish_name, {}).get("quantity", 0)
-            result_price: int = 0
-
-            if quantity <= available_qty:
-                result_price = price * quantity
-                self.menu[dish_name]["quantity"] -= quantity
-                return result_price
-            else:
-                return "Requested quantity not available"
-        else:
+        if dish_name not in self.menu:
             return "Dish not available"
+
+        dish = self.menu[dish_name]
+        available_qty: int = dish.get("quantity", 0)
+        if quantity > available_qty:
+            return "Requested quantity not available"
+
+        price: int = dish.get("price", 0)
+        result_price: int = price * quantity
+        dish["quantity"] -= quantity
+        return result_price
